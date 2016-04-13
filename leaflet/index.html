@@ -1,0 +1,48 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+        <link rel="stylesheet" href="osiris-leaflet.css">
+        <script src="osiris-leaflet.js"></script>
+        <!--link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
+        <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.2.rc.2/leaflet.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.2.rc.2/leaflet.css">
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <title>Osiris Leaflet</title>
+    </head>
+    <body>
+        <p><br>
+        </p>
+        <div id="mapid"></div>
+        <script> 
+        
+        // Configuration values:
+        var api_key= "Aachen"  // The identifier used to create the map in OSIRS
+        var place = [50.77939, 6.07471]  // The center of the map. Usually a point within your building. Latitude, Longitude pair, i.e.: [39.49609, -0.4018879]
+        
+        //Globals        
+        var levels = [] // Array of LayerGroups, one layer group for each building level
+        
+        // Leaflet map creation
+        var mymap = L.map('mapid').setView(place, 19);  
+        
+        L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+	maxZoom: 22,
+	maxNativeZoom: 18,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(mymap);
+        
+        // First we need to create the levels
+        queryMap(api_key,"{properties.indoor:'level' }",createLevels);
+        
+        // Now it's time to query all the rooms, corridors, elevators...
+        queryMap(api_key,"{ $and: [ {properties.indoor:{$exists: true}} , {properties.indoor: {$ne: 'level'}}] }",drawIndoor);
+        
+        
+        
+        </script>
+        
+    </body>
+    </html>

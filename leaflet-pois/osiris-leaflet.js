@@ -125,11 +125,11 @@ function drawPOIs(data){
 /**
  * Performs an AJAX call using JQuery
  **/
-function queryMap(api_key, layer, query, callbackFunc){
+function queryMap(api_key, authorization, layer, query, callbackFunc){
     $.ajax({
         url:"http://localhost:8020/osiris/geolocation/territory/search?layer="+layer+"&pageSize=1000",   // Osiris server URL
         type:"POST",
-        headers:  {"api_key" : api_key},     
+        headers:  {"api_key" : api_key, 'Authorization': 'Basic '+authorization },     
         data: query, 
         dataType: "json",
         contentType: 'application/json',              

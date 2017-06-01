@@ -20,6 +20,7 @@
         
         // Configuration values:
         var api_key= "valenciaconference"  // The identifier used to create the map in OSIRS
+        var authorization= "ZGVmYXVsdHVzZXI6bXlwYXNzd29yZA=="  // The base64 enconding of "defaultuser:mypassword"
         var place = [39.496043264768105, -0.40192766277868941]  // The center of the map. Usually a point within your building. 
         
         //Globals        
@@ -35,13 +36,13 @@
         }).addTo(mymap);
         
         // First we need to create the levels
-        queryMap(api_key,"MAP","{properties.indoor:'level' }",createLevels);
+        queryMap(api_key,authorization,"MAP","{properties.indoor:'level' }",createLevels);
         
         // Now it's time to query all the rooms, corridors, elevators...
-        queryMap(api_key, "MAP","{ $and: [ {properties.indoor:{$exists: true}} , {properties.indoor: {$ne: 'level'}}] }",drawIndoor);
+        queryMap(api_key, authorization,"MAP","{ $and: [ {properties.indoor:{$exists: true}} , {properties.indoor: {$ne: 'level'}}] }",drawIndoor);
         
         // Let's add the POIs
-        queryMap(api_key,"FEATURES","{}",drawPOIs);
+        queryMap(api_key, authorization,"FEATURES","{}",drawPOIs);
         
         </script>
         

@@ -20,6 +20,7 @@
         
         // Configuration values:
         var api_key= "Aachen"  // The identifier used to create the map in OSIRS
+        var authorization= "ZGVmYXVsdHVzZXI6bXlwYXNzd29yZA=="  // The base64 enconding of "defaultuser:mypassword"
         var place = [50.77939, 6.07471]  // The center of the map. Usually a point within your building. Latitude, Longitude pair, i.e.: [39.49609, -0.4018879]
         
         //Globals        
@@ -35,10 +36,10 @@
         }).addTo(mymap);
         
         // First we need to create the levels
-        queryMap(api_key,"{properties.indoor:'level' }",createLevels);
+        queryMap(api_key, authorization, "{properties.indoor:'level' }",createLevels);
         
         // Now it's time to query all the rooms, corridors, elevators...
-        queryMap(api_key,"{ $and: [ {properties.indoor:{$exists: true}} , {properties.indoor: {$ne: 'level'}}] }",drawIndoor);
+        queryMap(api_key, authorization, "{ $and: [ {properties.indoor:{$exists: true}} , {properties.indoor: {$ne: 'level'}}] }",drawIndoor);
         
         
         
